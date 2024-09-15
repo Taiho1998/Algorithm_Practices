@@ -24,7 +24,9 @@ function solution(code) {
             }
         }
     }
+    if (answer == '')
+        return answer = "EMPTY"
     return answer;
 }
 
-solution(str)
+console.log(solution(str))
