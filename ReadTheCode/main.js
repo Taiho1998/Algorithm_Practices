@@ -24,7 +24,7 @@ function solution(code) {
             }
         }
     }
-    if (answer == '')
+    if (answer === '')
         return answer = "EMPTY"
     return answer;
 }
