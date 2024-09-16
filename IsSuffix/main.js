@@ -18,4 +18,4 @@ function solution(my_string, is_suffix) {
     return answer;
 }
 
-console.log(solution("banana", "bana"))
+console.log(solution("banana", "abanana"))
