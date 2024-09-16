@@ -1,5 +1,7 @@
 "use strict";
 
+// 출처 https://school.programmers.co.kr/learn/courses/30/lessons/181908
+
 function solution(my_string, is_suffix) {
     var answer = 0;
     let strLen = my_string.length
