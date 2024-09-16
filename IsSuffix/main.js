@@ -2,21 +2,20 @@
 
 function solution(my_string, is_suffix) {
     var answer = 0;
-    strLen = my_string.length()
-    sufLen = is_suffix.length()
-    if (suflen > strLen)
+    let strLen = my_string.length
+    let sufLen = is_suffix.length
+    if (sufLen > strLen)
         return answer
     else {
-        for (let i = 0; i < sufLen; i++){
+        for (let i = 1; i < sufLen + 1; i++){
             if (my_string[strLen - i] === is_suffix[sufLen - i]){
                 answer = 1
             } else {
-                answer = 0
-                break
+                return answer = 0
             }
         }
     }
     return answer;
 }
 
-console.log("banana", "ana")
+console.log(solution("banana", "bana"))
