@@ -12,7 +12,22 @@ function solution(video_len, pos, op_start, op_end, commands) {
     let posTime = transToInt(pos)
     let opStart = transToInt(op_start)
     let opEnd = transToInt(op_end)
-    console.log(transToTime(opEnd))
+    let i = 0
+    while (i < commands.length){
+    switch(commands[i]){
+            case 'next':{
+                console.log(commands[i], i)
+                i++
+                break
+            }
+            case 'prev':{
+                console.log(commands[i], i)
+                i++
+                break
+            }
+            default:
+        }
+    }
     return answer;
 }
 
@@ -22,6 +37,7 @@ function transToInt(str) {
     return parseInt(arr[1]) + (60 * parseInt(arr[0]))
 }
 
+//정수를 00:00 형태의 문자열로 변환
 function transToTime(int) {
     let min = parseInt(int / 60)
     let sec = parseInt(int % 60)
