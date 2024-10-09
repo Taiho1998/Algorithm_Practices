@@ -14,21 +14,31 @@ function solution(video_len, pos, op_start, op_end, commands) {
     let opEnd = transToInt(op_end)
     let i = 0
     while (i < commands.length){
-    switch(commands[i]){
+        switch(commands[i]){
             case 'next':{
-                console.log(commands[i], i)
+                posTime += 10
+                if(posTime >= opStart && posTime < opEnd){
+                    poeTime = opEnd
+                }
                 i++
                 break
             }
             case 'prev':{
-                console.log(commands[i], i)
+                posTime-= 10
+                if(posTime >= opStart && posTime < opEnd){
+                    poeTime = opEnd
+                }
                 i++
                 break
             }
-            default:
+            default:{
+                //대충 에러가 일어났다는 코드
+                i++
+                break;
+            }
         }
     }
-    return answer;
+    return answer = transToTime(posTime);
 }
 
 // 전달받은 시간 정보 정수로 변환
@@ -55,4 +65,4 @@ function transToTime(int) {
     return `${strmin}:${strsec}`
 }
 
-solution(video_len, pos, op_start, op_end, commands)
+console.log(solution(video_len, pos, op_start, op_end, commands))
