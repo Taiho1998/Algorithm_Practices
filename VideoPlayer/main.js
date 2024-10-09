@@ -14,19 +14,22 @@ function solution(video_len, pos, op_start, op_end, commands) {
     let opEnd = transToInt(op_end)
     let i = 0
     while (i < commands.length){
+        if(posTime >= opStart && posTime < opEnd){
+            posTime = opEnd
+        }
         switch(commands[i]){
             case 'next':{
                 posTime += 10
-                if(posTime >= opStart && posTime < opEnd){
-                    poeTime = opEnd
+                if(posTime > videoLen){
+                    posTime = videoLen
                 }
                 i++
                 break
             }
             case 'prev':{
-                posTime-= 10
-                if(posTime >= opStart && posTime < opEnd){
-                    poeTime = opEnd
+                posTime -= 10
+                if(posTime < 0){
+                    posTime = 0
                 }
                 i++
                 break
@@ -36,6 +39,9 @@ function solution(video_len, pos, op_start, op_end, commands) {
                 i++
                 break;
             }
+        }
+        if(posTime >= opStart && posTime < opEnd){
+            posTime = opEnd
         }
     }
     return answer = transToTime(posTime);
