@@ -1,25 +1,20 @@
-let wallpaper = [
-  ".#####.",
-  "#######",
-  "...#...",
-  "#######",
-  ".......",
-  ".#####.",
-];
+let wallpaper = [".....", "....#"];
 
 function solution(wallpaper) {
   var answer = [];
   let check = false;
   let lux = 0;
-  let luy = wallpaper.length;
+  let luy = wallpaper[0].length;
   let rdx = 0;
   let rdy = 0;
+
   wallpaper.forEach((str) => {
     let f = str.indexOf("#");
     let l = str.lastIndexOf("#");
     if (f !== -1) f < luy ? (luy = f) : null;
     if (l !== -1) l > rdy ? (rdy = l) : null;
   });
+
   rdy++;
   for (let i = 0; i < wallpaper.length; i++) {
     if (wallpaper[i].indexOf("#") !== -1) {
@@ -28,8 +23,8 @@ function solution(wallpaper) {
     }
   }
   for (let i = 0; i < wallpaper.length; i++) {
-    if (wallpaper[wallpaper.length - (i + 1)].indexOf("#") !== -1) {
-      rdx = wallpaper.length - (i + 1) + 1;
+    if (wallpaper[wallpaper.length - i - 1].indexOf("#") !== -1) {
+      rdx = wallpaper.length - i;
       break;
     }
   }
@@ -44,8 +39,6 @@ function solution(wallpaper) {
     rdx = 0;
     rdy = 0;
   }
-
-  console.log(lux, luy, rdx, rdy);
   return (answer = [lux, luy, rdx, rdy]);
 }
 
