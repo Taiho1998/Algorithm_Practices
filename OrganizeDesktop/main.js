@@ -1,10 +1,13 @@
-let wallpaper = [".....", "....#"];
+let wallpaper = [".....", "....."];
 
 function solution(wallpaper) {
   var answer = [];
   let check = false;
   let lux = 0;
-  let luy = wallpaper[0].length;
+  let luy =
+    wallpaper[0].length > wallpaper.length
+      ? wallpaper[0].length
+      : wallpaper.length;
   let rdx = 0;
   let rdy = 0;
 
