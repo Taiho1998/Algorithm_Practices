@@ -1,4 +1,4 @@
-let score = [1, 2, 3, 1, 2, 3, 1];
+let score = [4, 1, 2, 2, 4, 4, 4, 4, 1, 2, 4, 2];
 
 function solution(k, m, score) {
   var answer = 0;
@@ -14,4 +14,4 @@ function solution(k, m, score) {
   }
   return answer;
 }
-console.log(solution(3, 4, score));
+console.log(solution(4, 3, score));
