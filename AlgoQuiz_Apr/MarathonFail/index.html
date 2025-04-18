@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function solution(participant, completion) {
+        // 아래 코드는 분명 정답이지만 효율성 검사에서 모두 통과하지 못합.
+        // 즉, 데이터의 양이 방대하거나 복잡할 경우 시간을 너무 오래 잡아먹는다는 뜻
+        // for (const i of completion)
+        //   participant.splice(participant.indexOf(i), 1);
+        // return participant[0];
+
+        // 효율성 검사에 통과한 코드는 다음과 같음
+        // participant.sort();
+        // completion.sort();
+        // for (let i of participant)
+        //   if (participant[i] !== completion[i]) return participant[i];
+        // return "nothing";
+        // 위 코드는 우선 participant와 completion을 정렬하고 서로 비교하면서
+        // 불일치하는 element가 발견될 경우 해당 element를 반환함
+        // 다만 sort에 조건식을 붙이는 순간 효율성 검사에서 바로 불합격됨.
+
+        // 개인적으로 인상 깊었던 다른 사람의 풀이
+        const map = new Map();
+
+        for (let i = 0; i < participant.length; i++) {
+          let a = participant[i],
+            b = completion[i];
+
+          map.set(a, (map.get(a) || 0) + 1);
+          map.set(b, (map.get(b) || 0) - 1);
+        }
+
+        for (let [k, v] of map) {
+          if (v > 0) return k;
+        }
+
+        return "nothing";
+      }
+      // 우선, map은 key와 value로 객체를 만든다. 위의 for문에서 먼저 key로는 participant의 이름.
+      // 그리고 value는 1차적으로 1을 할당한다.
+      // 만약 동명이인 = 똑같은 이름이 participant에 있었을 경우 map.get(a)가 true를
+      // 반환하기 때문에 이미 가지고 있는 value 1(또는 동명이인이 n명이라면 n) + 1 = 2(또는 n + 1)이 할당된다.
+      // 따라서 map.set(a, : 우선은 먼저 a = participant의 이름을 추가해)
+      // (map.get(a) || 0) + 1)) : 그리고 a가 map 객체에 있는지 확인해 = 당연하지만
+      // 기본적으로 존재하지 않았기 때문에 false, 따라서 조건식의 || 0의 0을 반환하지만,
+      // 만약 있으면(동명이인) map.get(a)을 반환하고, 전체 값에 1을 더한다.
+
+      // 이후 b의 경우 모든 participant가 있는 map 객체에 map.get(b)를 통해 b의 이름이 map에 존재하는지
+      // = 완주를 했는지 체크하고, 완주했으면 = map에 이름이 있으면 -1을 한다.
+      // 동명이인의 경우에도 2의 값이 할당되어 있기에 -1을 해도 1이 남는다. 따라서 동명이인
+      // 중 한 명만 통과하지 못하는 경우에도 대응되며, 둘 다 통과할 경우에도 대응된다.
+      // 마지막으로 정답은 value 값이 0이 아닌 key를 반환한다.
+
+      console.log(
+        solution(
+          ["marina", "josipa", "nikola", "vinko", "filipa"],
+          ["josipa", "filipa", "marina", "nikola"]
+        )
+      );
+    </script>
+  </body>
+</html>
