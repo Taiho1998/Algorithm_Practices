@@ -11,14 +11,12 @@
       // 바로 앞 아니면 바로 뒷 번호만 빌려줄 수 있음
       function solution(n, lost, reserve) {
         var answer = 0;
-        var array = [];
+        var array = new Array(n);
         lost.sort((a, b) => a - b);
         reserve.sort((a, b) => a - b);
-        for (let i = 0; i < n; i++) {
-          array[i] = 1;
-          array[i] = lost.includes(i + 1) ? array[i] - 1 : array[i];
-          array[i] = reserve.includes(i + 1) ? array[i] + 1 : array[i];
-        }
+        array.fill(1);
+        lost.forEach((i) => array[i - 1]--);
+        reserve.forEach((i) => array[i - 1]++);
         for (let i = 0; i < n; i++) {
           if (array[i] === 0) {
             if (i > 0 && array[i - 1] === 2) {
