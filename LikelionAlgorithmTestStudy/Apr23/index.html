@@ -10,31 +10,34 @@
       // 전체 학생 수 n, 체육복을 잃어버린 학생 lost, 체육복 여분을 가진 reserve
       // 바로 앞 아니면 바로 뒷 번호만 빌려줄 수 있음
       function solution(n, lost, reserve) {
-        var answer = n;
-        for (let i of lost) {
-          if (reverse) {
-            if (reserve.includes(i + 1)) {
-              reserve = reserve.filter((a) => a !== i + 1);
-              lost = lost.filter((a) => a !== i);
-              continue;
-            }
-            if (lost.includes(i - 1)) {
-              reserve = reserve.filter((a) => a !== i - 1);
-              lost = lost.filter((a) => a !== i);
-            }
-          } else {
-            if (reserve.includes(i - 1)) {
-              reserve = reserve.filter((a) => a !== i - 1);
-              lost = lost.filter((a) => a !== i);
-              continue;
-            }
-            if (lost.includes(i + 1)) {
-              reserve = reserve.filter((a) => a !== i + 1);
-              lost = lost.filter((a) => a !== i);
+        var answer = 0;
+        var array = [];
+        lost.sort((a, b) => a - b);
+        reserve.sort((a, b) => a - b);
+        for (let i = 0; i < n; i++) {
+          // 기본값 1, 잃어버릴 경우 -1, 여분을 가질 경우 +1
+          array[i] = 1;
+          array[i] = lost.includes(i + 1)
+            ? array[i] - 1
+            : reserve.includes(i + 1)
+            ? array[i] + 1
+            : array[i];
+        }
+        // 체육복을 읽어버린 학생 로직
+        for (let i = 0; i < n; i++) {
+          if (array[i] === 0) {
+            // 첫번째 학생이 아니며, 앞 번호 학생이 여분을 가질 경우
+            if (i > 0 && array[i - 1] === 2) {
+              array[i - 1] -= 1;
+              array[i] += 1;
+              // 뒷 번호 학생이 여분을 가질 경우
+            } else if (array[i + 1] === 2) {
+              array[i + 1] -= 1;
+              array[i] += 1;
             }
           }
         }
-        answer = n - lost.length;
+        for (let i of array) answer = i !== 0 ? answer + 1 : answer;
         return answer;
       }
     </script>
