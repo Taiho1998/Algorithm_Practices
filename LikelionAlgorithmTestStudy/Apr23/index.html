@@ -12,14 +12,26 @@
       function solution(n, lost, reserve) {
         var answer = n;
         for (let i of lost) {
-          if (reserve.includes(i + 1)) {
-            reserve = reserve.filter((a) => a !== i + 1);
-            lost = lost.filter((a) => a !== i);
-            continue;
-          }
-          if (lost.includes(i - 1)) {
-            reserve = reserve.filter((a) => a !== i - 1);
-            lost = lost.filter((a) => a !== i);
+          if (reverse) {
+            if (reserve.includes(i + 1)) {
+              reserve = reserve.filter((a) => a !== i + 1);
+              lost = lost.filter((a) => a !== i);
+              continue;
+            }
+            if (lost.includes(i - 1)) {
+              reserve = reserve.filter((a) => a !== i - 1);
+              lost = lost.filter((a) => a !== i);
+            }
+          } else {
+            if (reserve.includes(i - 1)) {
+              reserve = reserve.filter((a) => a !== i - 1);
+              lost = lost.filter((a) => a !== i);
+              continue;
+            }
+            if (lost.includes(i + 1)) {
+              reserve = reserve.filter((a) => a !== i + 1);
+              lost = lost.filter((a) => a !== i);
+            }
           }
         }
         answer = n - lost.length;
