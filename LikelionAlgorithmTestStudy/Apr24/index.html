@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function solution(name) {
+        var answer = 0;
+        const arr = name.split("");
+        const init = "A".charCodeAt();
+        const end = "Z".charCodeAt();
+        // 13번째 알파벳을 mid-point로 설정
+        const mid = "M".charCodeAt();
+        const newName = name.replaceAll("A", "");
+        for (let i of newName) {
+          var count = i.charCodeAt();
+          // 중앙을 기준으로 위로 누르는게 빠른지 아래로 누르는게 빠른지 판단한 이후 answer에 값을 저장
+          answer += count <= mid ? count - init : end - count + 1;
+        }
+        //가로 이동은 (A가 아닌 알파벳 수) 회만큼 이뤄짐. 각 횟수마다 몇번 이루어지는지를 구해야 함
+        // pos = 가로축 상 현재 위치
+        var pos = 0;
+        for (let j = 0; j < newName.length; j++) {
+          // 1번쨰 횟수 한정 체크
+          if (j === 0 && arr[pos] !== "A") {
+            continue;
+          } else {
+            arr[pos] = "A";
+            // 오른쪽으로 가장 먼저 만나는 A가 아닌 알파벳을 향해 이동했을 때의 거리
+            var firstStr = arr.findIndex((e) => e != "A");
+            var first = Math.abs(firstStr - pos);
+            // 왼쪽으로 가장 먼저 만나는 A가 아닌 알파벳을 향해 이동했을 때의 거리
+            var lastStr = arr.findLastIndex((e) => e != "A");
+            var last = Math.abs(arr.length - lastStr + pos);
+            console.log(firstStr, lastStr, pos);
+            pos += first < last ? first : last;
+            answer += first < last ? first : last;
+          }
+        }
+        return answer;
+      }
+      console.log(solution("JEROEN"));
+    </script>
+  </body>
+</html>
