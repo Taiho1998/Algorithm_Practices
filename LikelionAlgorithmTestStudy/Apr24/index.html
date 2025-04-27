@@ -17,21 +17,27 @@
           answer += Math.min(charCode - 65, 91 - charCode); // A=65, Z=90
         }
 
-        // 가로 이동 최소값 계산
-        let move = len - 1; // 최악의 경우: 끝까지 가는 경우
+        let minMove = name.length - 1;
+        for (let i = 1; i < name.length; i++) {
+          if (name[i] === "A") {
+            for (var j = i + 1; j < name.length; j++) {
+              if (name[j] !== "A") {
+                break;
+              }
+            }
+            const left = i - 1;
+            const right = name.length - j;
+            minMove = Math.min(
+              minMove,
+              left > right ? left + right * 2 : left * 2 + right
+            );
+            console.log(i, j, left, right, minMove);
 
-        for (let i = 0; i < len; i++) {
-          let next = i + 1;
-          while (next < len && name[next] === "A") {
-            next++;
+            i = j;
           }
-          // i까지 가서 뒤로 돌아가는 경우와 비교
-          move = Math.min(move, i + i + (len - next));
-          // 또는 뒤로 갔다가 앞으로 가는 경우와 비교
-          move = Math.min(move, (len - next) * 2 + i);
         }
 
-        return answer + move;
+        return answer + minMove;
       }
 
       console.log(solution("ABAAAAAAAAABB"));
