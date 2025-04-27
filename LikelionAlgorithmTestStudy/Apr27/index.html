@@ -8,43 +8,25 @@
   <body>
     <script>
       function solution(number, k) {
-        var answer = [];
-        var length = number.length;
-        var limit = k;
-        // 정렬로 나눈 뒤 int로 변환
-        var arr = number.split("").map(Number);
-        //배열 내에서 가장 큰 수와
-        var max = Math.max(...arr);
-        var maxIndex = arr.findIndex((e) => e === max);
-        // 첫 구간에 대한 연산
-        if (maxIndex < k) {
-          arr = arr.slice(maxIndex);
-          limit -= maxIndex;
-        } else {
-          while (limit) {
-            newArr = arr.slice(0, k);
-            arr.splice(
-              arr.findIndex((e) => e === Math.min(...newArr)),
-              1
-            );
+        let arr = [];
 
-            limit -= 1;
+        for (let i = 0; i < number.length; i++) {
+          let num = number[i];
+          while (k > 0 && arr.length && arr[arr.length - 1] < num) {
+            arr.pop();
+            k--;
           }
+
+          arr.push(num);
         }
-        while (limit) {
-          newArr = arr.slice(maxIndex);
-          arr.splice(
-            arr.findIndex((e) => e === Math.min(...newArr)),
-            1
-          );
-          limit--;
+        if (k > 0) {
+          arr.splice(arr.length - k, k);
         }
-        console.log(arr, limit);
-        answer = arr.join("");
-        return answer;
+
+        return arr.join("");
       }
 
-      console.log(solution("1924", 2));
+      console.log(solution("4177250841", 8));
     </script>
   </body>
 </html>
