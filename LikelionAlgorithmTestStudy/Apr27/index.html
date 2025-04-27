@@ -9,15 +9,43 @@
     <script>
       function solution(number, k) {
         var answer = [];
-        var length = number.length();
+        var length = number.length;
+        var limit = k;
         // 정렬로 나눈 뒤 int로 변환
         var arr = number.split("").map(Number);
+        //배열 내에서 가장 큰 수와
+        var max = Math.max(...arr);
+        var maxIndex = arr.findIndex((e) => e === max);
+        // 첫 구간에 대한 연산
+        if (maxIndex < k) {
+          arr = arr.slice(maxIndex);
+          limit -= maxIndex;
+        } else {
+          while (limit) {
+            newArr = arr.slice(0, maxIndex);
+            arr.splice(
+              arr.findIndex((e) => e === Math.min(...newArr)),
+              1
+            );
 
-        console.log(visited);
+            limit -= 1;
+          }
+        }
+        while (limit) {
+          newArr = arr.slice(maxIndex);
+          arr.splice(
+            arr.findIndex((e) => e === Math.min(...newArr)),
+            1
+          );
+          limit--;
+        }
+        console.log(arr, limit);
+        answer = arr.join("");
+        console.log(typeof answer);
         return answer;
       }
 
-      console.log("1924", 2);
+      console.log(solution("1924", 2));
     </script>
   </body>
 </html>
