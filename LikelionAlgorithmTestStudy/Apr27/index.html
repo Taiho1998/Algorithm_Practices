@@ -22,7 +22,7 @@
           limit -= maxIndex;
         } else {
           while (limit) {
-            newArr = arr.slice(0, maxIndex);
+            newArr = arr.slice(0, k);
             arr.splice(
               arr.findIndex((e) => e === Math.min(...newArr)),
               1
@@ -41,7 +41,6 @@
         }
         console.log(arr, limit);
         answer = arr.join("");
-        console.log(typeof answer);
         return answer;
       }
 
