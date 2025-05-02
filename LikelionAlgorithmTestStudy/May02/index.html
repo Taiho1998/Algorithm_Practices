@@ -11,8 +11,8 @@
         var answer = 0;
         // str으로 입력 받으므로 array로 분리 후 int형으로 변환
         var numArr = numbers.split("").map((e) => parseInt(e));
-
         var allNum = allComb(numArr, numArr.length);
+        console.log(allNum);
         allNum.forEach((element) => {
           if (isPrime(element)) answer++;
         });
@@ -28,7 +28,6 @@
       //       var newArr = [...arr.slice(0, i), ...arr.slice(i + 1)];
       //       // 재귀 함수 시작
       //       var combinations = allComb(newArr, num - 1);
-      //       console.log(combinations);
       //       var attached = combinations.map((elem) => [fixed, ...elem]);
       //       var resNum = attached[0].reduce(
       //         (acc, curV, curI) =>
@@ -44,9 +43,11 @@
         if (num === 1) return arr.map((val) => [val]);
         for (let i = 0; i < arr.length; i++) {
           var fixed = arr[i];
-          var newArr = [...arr.slice(0, i), ...arr.slice(i + 1)];
+          var newArr = arr.filter((_, index) => index !== i);
           var combinations = allComb(newArr, num - 1); // [ [1, 0], [0, 1], ... ]
           var attached = combinations.map((elem) => [fixed, ...elem]); // [ [1,1,0], ... ]
+          // 위의 코드처럼 attached를 구하고 이를 미리 number로 함친 뒤 result에 push할 경우, 위의 combinations.map 에서 오류가 발생.
+          // elem이 iterable 하지 않다고 함. 이는 number와 array<number>를 동시에 가진 채 map을 적용하는데, number에도 map을 적용해버려서 문제가 생긴 듯
           results.push(...attached); // 배열만 push
         }
         return results;
