@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function solution(numbers) {
+        var answer = 0;
+        // str으로 입력 받으므로 array로 분리 후 int형으로 변환
+        var numArr = numbers.split("").map((e) => parseInt(e));
+        console.log(allComb([1, 2, 3, 4], 3));
+        return answer;
+      }
+
+      // 가능한 모든 조합을 구하는 함수
+      function allComb(arr, num) {
+        var results = [];
+        if (num === 1) return arr.map((val) => [val]);
+        for (let i = 0; i < arr.length; i++) {
+          var fixed = arr[i];
+          var newArr = arr.slice(i + 1);
+          console.log(i, fixed, newArr);
+          // 재귀 함수 시작
+          var combinations = allComb(newArr, num - 1);
+          var attached = combinations.map((elem) => [fixed, ...elem]);
+          results.push(...attached);
+        }
+        return results;
+      }
+
+      function isPrime(num) {
+        for (var i = 1; i < num; i++) {
+          if (num % (num - i) === 0) return true;
+        }
+        return false;
+      }
+
+      solution("17");
+    </script>
+  </body>
+</html>

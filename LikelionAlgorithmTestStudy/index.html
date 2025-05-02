@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class UnionFind {
+        constructor(n) {
+          // 각 원소의 부모를 자기 자신으로 초기화
+          this.parent = Array(n)
+            .fill(null)
+            .map((_, index) => index);
+          this.rank = Array(n).fill(0); // 트리의 높이를 관리 (최소화)
+        }
+
+        // find 연산: 원소 x의 루트 찾기
+        find(x) {
+          if (this.parent[x] !== x) {
+            this.parent[x] = this.find(this.parent[x]); // 경로 압축
+          }
+          return this.parent[x];
+        }
+
+        // union 연산: 두 원소 x, y를 하나의 집합으로 합침
+        union(x, y) {
+          const rootX = this.find(x);
+          const rootY = this.find(y);
+
+          if (rootX !== rootY) {
+            if (this.rank[rootX] > this.rank[rootY]) {
+              this.parent[rootY] = rootX;
+            } else if (this.rank[rootX] < this.rank[rootY]) {
+              this.parent[rootX] = rootY;
+            } else {
+              this.parent[rootY] = rootX;
+              this.rank[rootX] += 1;
+            }
+            return true;
+          }
+          return false;
+        }
+      }
+
+      function solution(n, costs) {
+        costs.sort((a, b) => a[2] - b[2]);
+
+        const uf = new UnionFind(n); // 유니온-파인드 객체 생성
+        let totalCost = 0; // 최소 비용
+
+        // 간선들을 하나씩 처리하면서 연결
+        for (let [u, v, cost] of costs) {
+          if (uf.union(u, v)) {
+            // 두 섬을 연결할 수 있으면
+            totalCost += cost; // 비용 더하기
+          }
+        }
+
+        return totalCost;
+      }
+      console.log(
+        solution(4, [
+          [0, 1, 1],
+          [0, 2, 2],
+          [1, 2, 5],
+          [1, 3, 1],
+          [2, 3, 8],
+        ])
+      );
+    </script>
+  </body>
+</html>
