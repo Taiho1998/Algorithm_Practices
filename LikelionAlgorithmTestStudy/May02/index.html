@@ -11,34 +11,55 @@
         var answer = 0;
         // str으로 입력 받으므로 array로 분리 후 int형으로 변환
         var numArr = numbers.split("").map((e) => parseInt(e));
-        console.log(allComb([1, 2, 3, 4], 3));
+
+        var allNum = allComb(numArr, numArr.length);
+        allNum.forEach((element) => {
+          if (isPrime(element)) answer++;
+        });
         return answer;
       }
 
       // 가능한 모든 조합을 구하는 함수
+      //   function allComb(arr, num) {
+      //     var results = arr.map((val) => val);
+      //     if (num === 1) return arr.map((val) => [val]);
+      //     for (let i = 0; i < arr.length; i++) {
+      //       var fixed = arr[i];
+      //       var newArr = [...arr.slice(0, i), ...arr.slice(i + 1)];
+      //       // 재귀 함수 시작
+      //       var combinations = allComb(newArr, num - 1);
+      //       console.log(combinations);
+      //       var attached = combinations.map((elem) => [fixed, ...elem]);
+      //       var resNum = attached[0].reduce(
+      //         (acc, curV, curI) =>
+      //           acc + curV * 10 ** (attached[0].length - curI - 1),
+      //         0
+      //       );
+      //       results.push(resNum);
+      //     }
+      //     return results;
+      //   }
       function allComb(arr, num) {
         var results = [];
         if (num === 1) return arr.map((val) => [val]);
         for (let i = 0; i < arr.length; i++) {
           var fixed = arr[i];
-          var newArr = arr.slice(i + 1);
-          console.log(i, fixed, newArr);
-          // 재귀 함수 시작
-          var combinations = allComb(newArr, num - 1);
-          var attached = combinations.map((elem) => [fixed, ...elem]);
-          results.push(...attached);
+          var newArr = [...arr.slice(0, i), ...arr.slice(i + 1)];
+          var combinations = allComb(newArr, num - 1); // [ [1, 0], [0, 1], ... ]
+          var attached = combinations.map((elem) => [fixed, ...elem]); // [ [1,1,0], ... ]
+          results.push(...attached); // 배열만 push
         }
         return results;
       }
 
       function isPrime(num) {
-        for (var i = 1; i < num; i++) {
-          if (num % (num - i) === 0) return true;
+        for (var i = 2; i < Math.sqrt(num); i++) {
+          if (num % i === 0) return true;
         }
         return false;
       }
 
-      solution("17");
+      console.log(solution("011"));
     </script>
   </body>
 </html>
