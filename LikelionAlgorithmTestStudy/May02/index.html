@@ -7,18 +7,6 @@
   </head>
   <body>
     <script>
-      function solution(numbers) {
-        var answer = 0;
-        // str으로 입력 받으므로 array로 분리 후 int형으로 변환
-        var numArr = numbers.split("").map((e) => parseInt(e));
-        var allNum = allComb(numArr, numArr.length);
-        console.log(allNum);
-        allNum.forEach((element) => {
-          if (isPrime(element)) answer++;
-        });
-        return answer;
-      }
-
       // 가능한 모든 조합을 구하는 함수
       //   function allComb(arr, num) {
       //     var results = arr.map((val) => val);
@@ -38,14 +26,39 @@
       //     }
       //     return results;
       //   }
+      function solution(numbers) {
+        var answer = 0;
+        // str으로 입력 받으므로 array로 분리 후 int형으로 변환
+        var numArr = numbers.split("").map((e) => parseInt(e));
+        var allNum = [];
+        // 숫자들의 조합을 1자리, 2자리, 3자리.... n자리까지 구해서 allNum 함수에 push함
+        for (let i = 1; i <= numArr.length; i++) {
+          const combs = allComb(numArr, i);
+          // push했던 배열들을 다시 숫자로 변환
+          allNum.push(...combs.map((elem) => parseInt(elem.join(""))));
+        }
+        // 중복 삭제용 반복문
+        var arr = [];
+        for (let i = 0; i < allNum.length; i++) {
+          if (!arr.includes(allNum[i])) arr.push(allNum[i]);
+        }
+        // 소수 확인 함수 실행
+        arr.forEach((element) => {
+          if (isPrime(element)) {
+            console.log(element);
+            answer++;
+          }
+        });
+        return answer;
+      }
       function allComb(arr, num) {
         var results = [];
         if (num === 1) return arr.map((val) => [val]);
         for (let i = 0; i < arr.length; i++) {
           var fixed = arr[i];
           var newArr = arr.filter((_, index) => index !== i);
-          var combinations = allComb(newArr, num - 1); // [ [1, 0], [0, 1], ... ]
-          var attached = combinations.map((elem) => [fixed, ...elem]); // [ [1,1,0], ... ]
+          var combinations = allComb(newArr, num - 1);
+          var attached = combinations.map((elem) => [fixed, ...elem]);
           // 위의 코드처럼 attached를 구하고 이를 미리 number로 함친 뒤 result에 push할 경우, 위의 combinations.map 에서 오류가 발생.
           // elem이 iterable 하지 않다고 함. 이는 number와 array<number>를 동시에 가진 채 map을 적용하는데, number에도 map을 적용해버려서 문제가 생긴 듯
           results.push(...attached); // 배열만 push
@@ -54,10 +67,11 @@
       }
 
       function isPrime(num) {
-        for (var i = 2; i < Math.sqrt(num); i++) {
-          if (num % i === 0) return true;
+        if (num < 2) return false;
+        for (var i = 2; i <= Math.sqrt(num); i++) {
+          if (num % i === 0) return false;
         }
-        return false;
+        return true;
       }
 
       console.log(solution("011"));
